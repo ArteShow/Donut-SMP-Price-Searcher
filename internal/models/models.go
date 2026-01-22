@@ -1,5 +1,9 @@
 package models
 
+type ListAuctionPageRequest struct {
+	Sort   string `json:"sort"`
+}
+
 type ListAuctionPageResponse struct {
 	Response []Object `json:"result"`
 }
