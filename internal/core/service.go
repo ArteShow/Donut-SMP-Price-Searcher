@@ -9,24 +9,34 @@ import (
 
 const GetAuctionItemsEndpoint = "/v1/auction/list/"
 
-func CalculateAveregPrice(token string) int64 {
-	var Responses []models.ListAuctionPageResponse
-	var counter int
+func CalculateAveregPrice(token, item string) (int64, error) {
+	var responses []models.ListAuctionPageResponse
+	counter := 1
+
 	for {
-		counter++
-		res, err := SendRequest(token, GetAuctionItemsEndpoint+strconv.Itoa(int(counter)))
+		res, err := SendRequest(token, GetAuctionItemsEndpoint+strconv.Itoa(counter))
 		if err != nil {
 			break
 		}
-		Responses = append(Responses, res)
+		if len(res.Response) == 0 {
+			break
+		}
+		responses = append(responses, res)
+		counter++
 	}
 
-	var Items []int64
-	for _, res := range Responses {
-		for _, item := range res.Response{
-			Items = append(Items, int64(item.Price))
+	var prices []int64
+	for _, res := range responses {
+		for _, obj := range res.Response {
+			if obj.Item.DisplayName == item {
+				prices = append(prices, int64(obj.Price))
+			}
 		}
 	}
 
-	return avereg.GetAveregPrice(Items)
+	if len(prices) == 0 {
+		return 0, nil
+	}
+
+	return avereg.GetAveregPrice(prices), nil
 }

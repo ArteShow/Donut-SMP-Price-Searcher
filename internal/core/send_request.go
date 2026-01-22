@@ -9,7 +9,7 @@ import (
 	"github.com/ArteShow/Donut-SMP-Price-Searcher/internal/models"
 )
 
-const BaseURL = "api.donutsmp.net"
+const BaseURL = "https://api.donutsmp.net"
 
 func SendRequest(token, endpoint string) (models.ListAuctionPageResponse, error) {
 	Request, err := json.Marshal(models.ListAuctionPageRequest{Sort: "lowest_price"})
