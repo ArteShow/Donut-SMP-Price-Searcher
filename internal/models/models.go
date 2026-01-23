@@ -2,7 +2,7 @@ package models
 
 type GetAuctionStatsRequest struct {
 	Sort   string `json:"sort"`
-	Search string `json:"searcher"`
+	Search string `json:"search"`
 }
 
 type GetAuctionStatsResponse struct {

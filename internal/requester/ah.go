@@ -11,6 +11,7 @@ import (
 )
 
 const BaseURL = "https://api.donutsmp.net"
+
 func GetAhObjects(token, sort, search string, page int) (models.GetAuctionStatsResponse, error) {
 	body := models.GetAuctionStatsRequest{Sort: sort, Search: search}
 	bytes, err := json.Marshal(body)
