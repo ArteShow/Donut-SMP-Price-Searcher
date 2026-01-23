@@ -37,6 +37,7 @@ func main() {
 			return
 		}
 	})
+	mux.Handle("/", http.FileServer(http.Dir("./static")))
 	mux.HandleFunc("/price", handler.GetLowestPricePerItem)
 
 	srv := &http.Server{

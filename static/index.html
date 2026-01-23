@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DonutSMP Price Checker</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .box {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: #22c55e;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #16a34a;
+        }
+
+        .result {
+            margin-top: 20px;
+            background: #020617;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .error {
+            color: #f87171;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>DonutSMP Price Checker</h1>
+
+    <div class="box">
+        <label>API Token</label>
+        <input id="token" placeholder="your token">
+
+        <label>Item ID (e.g. minecraft:arrow)</label>
+        <input id="itemId" placeholder="minecraft:arrow">
+
+        <label>Amount</label>
+        <input id="amount" type="number" value="1" min="1">
+
+        <button onclick="getPrice()">Get Price</button>
+
+        <div id="output" class="result"></div>
+    </div>
+
+    <script>
+        async function getPrice() {
+            const token = document.getElementById("token").value
+            const id = document.getElementById("itemId").value
+            const amount = parseFloat(document.getElementById("amount").value)
+            const output = document.getElementById("output")
+
+            output.textContent = "Loading..."
+
+            try {
+                const res = await fetch("http://localhost:8000/price", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token: token,
+                        id: id,
+                        amount: amount
+                    })
+                })
+
+                if (!res.ok) {
+                    const text = await res.text()
+                    throw new Error(text)
+                }
+
+                const data = await res.json()
+                output.textContent = `average price: ${data.price}`
+            } catch (err) {
+                output.innerHTML = `<span class="error">Error: ${err.message}</span>`
+            }
+        }
+    </script>
+
+</body>
+
+</html>
