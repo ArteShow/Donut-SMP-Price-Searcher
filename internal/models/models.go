@@ -1,7 +1,7 @@
 package models
 
 type ListAuctionPageRequest struct {
-	Sort   string `json:"sort"`
+	Sort string `json:"sort"`
 }
 
 type ListAuctionPageResponse struct {
@@ -9,12 +9,12 @@ type ListAuctionPageResponse struct {
 }
 
 type Object struct {
-	Item  Item `json:"item"`
-	Price int  `json:"price"`
+	Item  Item    `json:"item"`
+	Price float64 `json:"price"`
 }
 
 type Item struct {
-	DisplayName string   `json:"display_name"`
+	DisplayName string   `json:"name"`
 	Count       int      `json:"count"`
 	Lore        []string `json:"lore"`
 }

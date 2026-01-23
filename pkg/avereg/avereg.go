@@ -1,9 +1,9 @@
 package avereg
 
-func GetAveregPrice(Items []int64) int64 {
+func GetAveregPrice(Items []float64) float64 {
 	var sum int
 	for _, item := range Items {
 		sum += int(item)
 	}
-	return int64(sum / len(Items))
+	return float64(sum / len(Items))
 }
